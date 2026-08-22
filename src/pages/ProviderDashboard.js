@@ -33,13 +33,7 @@ const ProviderDashboard = () => {
     }
   }, [user]);
 
-  // Fetch services and bookings when user changes
-  useEffect(() => {
-    fetchServices();
-    fetchBookings();
-  }, [user]);
-
-  const fetchServices = async () => {
+  const fetchServices = useCallback(async () => {
     setLoading(true);
     setError('');
     try {
@@ -53,16 +47,22 @@ const ProviderDashboard = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user]);
 
-  const fetchBookings = async () => {
+  const fetchBookings = useCallback(async () => {
     try {
       const response = await serviceAPI.getBookings({ role: 'provider' }, user.id);
       setBookings(response);
     } catch (err) {
       console.error('Failed to fetch bookings:', err);
     }
-  };
+  }, [user]);
+
+  // Fetch services and bookings when user changes
+  useEffect(() => {
+    fetchServices();
+    fetchBookings();
+  }, [user, fetchServices, fetchBookings]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

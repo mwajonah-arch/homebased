@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Container, Row, Col, Card, Button, Form, InputGroup, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { FaSearch, FaUserNurse, FaCalendarAlt, FaMapMarkerAlt } from 'react-icons/fa';
@@ -16,11 +16,7 @@ const ServicesPage = () => {
     maxRate: ''
   });
 
-  useEffect(() => {
-    fetchServices();
-  }, [filters]);
-
-  const fetchServices = async () => {
+  const fetchServices = useCallback(async () => {
     setLoading(true);
     setError('');
     try {
@@ -32,7 +28,11 @@ const ServicesPage = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [filters]);
+
+  useEffect(() => {
+    fetchServices();
+  }, [fetchServices]);
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;

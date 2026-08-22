@@ -119,7 +119,7 @@ const ServiceDetail = () => {
       <Container className="mt-5">
         <Row className="justify-content-center">
           <Col>
-            <Alert variant="danger">Service not found</Alert>
+            <Alert variant="danger">{error || 'Service not found'}</Alert>
             <Link to="/services" className="btn btn-primary mt-3">
               Go Back to Services
             </Link>
