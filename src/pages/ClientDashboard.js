@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Button, Table, Spinner, Alert, Link } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, Table, Spinner, Alert } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { bookingAPI } from '../services/api';
-import { FaCalendarAlt, FaUserInjured, FaUserNurse, FaClock, FaMoneyBill, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
+import { FaCalendarAlt } from 'react-icons/fa';
 
 const ClientDashboard = () => {
   const { user } = useAuth();

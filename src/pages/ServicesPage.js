@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Button, Form, InputGroup, Spinner, Dropdown } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, Form, InputGroup, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { FaSearch, FaFilter, FaHeart, FaUserNurse, FaCalendarAlt } from 'react-icons/fa';
+import { FaSearch, FaUserNurse, FaCalendarAlt, FaMapMarkerAlt } from 'react-icons/fa';
 import { serviceAPI } from '../services/api';
 
 const ServicesPage = () => {

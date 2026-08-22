@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Container, Row, Col, Card, Button, ListGroup, Form, Spinner, Alert } from 'react-bootstrap';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { serviceAPI, bookingAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
-import { FaUser, FaMapMarkerAlt, FaCalendarAlt, FaClock, FaHeart, FaUserInjured, FaComments } from 'react-icons/fa';
+import { FaUser, FaMapMarkerAlt, FaCalendarAlt, FaClock, FaHeart, FaComments } from 'react-icons/fa';
 
 const ServiceDetail = () => {
   const { id } = useParams();
@@ -27,11 +27,7 @@ const ServiceDetail = () => {
   const [bookingError, setBookingError] = useState('');
   const [bookingSuccess, setBookingSuccess] = useState('');
 
-  useEffect(() => {
-    fetchService();
-  }, [id]);
-
-  const fetchService = async () => {
+  const fetchService = useCallback(async () => {
     setLoading(true);
     setError('');
     try {
@@ -43,7 +39,11 @@ const ServiceDetail = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [id]);
+
+  useEffect(() => {
+    fetchService();
+  }, [fetchService]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -68,7 +68,7 @@ const ServiceDetail = () => {
     }
 
     try {
-      const response = await bookingAPI.createBooking({
+      await bookingAPI.createBooking({
         serviceId: id,
         ...bookingForm
       });
@@ -92,7 +92,8 @@ const ServiceDetail = () => {
         }, 1500);
       }
     } catch (err) {
-      setBookingError(err.response?.data?.msg || 'Failed to create booking');
+      const errorMessage = err.response?.data?.msg || 'Failed to create booking';
+      setBookingError(errorMessage);
       console.error(err);
     } finally {
       setBookingLoading(false);

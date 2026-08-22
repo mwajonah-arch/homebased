@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Button, Table, Spinner, Alert, Form, InputGroup } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Container, Row, Col, Card, Button, Table, Spinner, Alert, Form } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { serviceAPI } from '../services/api';
-import { FaUserNurse, FaCalendarAlt, FaClipboardList, FaPlus, FaTrashAlt, FaEdit } from 'react-icons/fa';
+import { FaEdit, FaTrashAlt } from 'react-icons/fa';
 
 const ProviderDashboard = () => {
   const { user } = useAuth();
@@ -25,7 +25,6 @@ const ProviderDashboard = () => {
     availability: '',
     images: ''
   });
-  const navigate = useNavigate();
 
   // Redirect if not a provider
   useEffect(() => {
@@ -34,6 +33,7 @@ const ProviderDashboard = () => {
     }
   }, [user]);
 
+  // Fetch services and bookings when user changes
   useEffect(() => {
     fetchServices();
     fetchBookings();
