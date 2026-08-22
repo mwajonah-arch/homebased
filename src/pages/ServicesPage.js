@@ -204,7 +204,7 @@ const ServicesPage = () => {
                     <Button variant="outline-primary" size="sm" as={Link} to={`/services/${service.id}`}>
                       Details
                     </Button>
-                    {(!service.provider.isAvailable || !service.is_active) ? (
+                    {(!service.provider.is_available || !service.is_active) ? (
                       <Button variant="outline-secondary" size="sm" disabled>
                         Not Available
                       </Button>

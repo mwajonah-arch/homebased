@@ -3,6 +3,7 @@ import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom';
 import { FaUser, FaLock, FaEnvelope } from 'react-icons/fa';
 import { authAPI } from '../services/api';
+import { useAuth } from '../context/AuthContext';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -10,6 +11,7 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,15 +20,9 @@ const LoginPage = () => {
 
     try {
       const token = await authAPI.login({ email, password });
-      // Login successful
-      localStorage.setItem('token', token);
-      // Decode token to get user role and redirect accordingly
-      const base64Url = token.split('.')[1];
-      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-      const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-      }).join(''));
-      const user = JSON.parse(jsonPayload);
+      // Update AuthContext (and localStorage) so the rest of the app sees
+      // the logged-in user immediately, then route based on their role.
+      const user = login(token);
       if (user.role === 'client') {
         navigate('/client/dashboard', { replace: true });
       } else if (user.role === 'nurse' || user.role === 'caregiver') {

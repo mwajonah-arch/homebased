@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Container, Row, Col, Card, Button, Table, Spinner, Alert, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { serviceAPI } from '../services/api';
+import { serviceAPI, bookingAPI } from '../services/api';
 import { FaEdit, FaTrashAlt } from 'react-icons/fa';
 
 const ProviderDashboard = () => {
@@ -51,11 +51,14 @@ const ProviderDashboard = () => {
 
   const fetchBookings = useCallback(async () => {
     try {
-      const response = await serviceAPI.getBookings({ role: 'provider' }, user.id);
+      const response = await bookingAPI.getBookings({ role: 'provider' });
       setBookings(response);
     } catch (err) {
       console.error('Failed to fetch bookings:', err);
     }
+    // bookingAPI.getBookings looks up the current user internally, but we
+    // still want to re-run this whenever `user` changes (e.g. on login).
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   // Fetch services and bookings when user changes

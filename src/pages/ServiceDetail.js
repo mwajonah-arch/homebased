@@ -151,7 +151,7 @@ const ServiceDetail = () => {
             </Card.Body>
             <ListGroup className="list-group-flush">
               <ListGroup.Item>
-                <FaMapMarkerAlt /> {service.location}, {service.city}, {service.state} {service.zipCode}
+                <FaMapMarkerAlt /> {service.location}, {service.city}, {service.state} {service.zip_code}
               </ListGroup.Item>
               <ListGroup.Item>
                 <FaCalendarAlt /> Duration: {service.duration}
@@ -353,7 +353,7 @@ const ServiceDetail = () => {
                   <strong>Availability:</strong> {service.availability?.length > 0 ? service.availability.map(a => `${a.day}: ${a.startTime} - ${a.endTime}`).join(', ') : 'Not specified'}
                 </ListGroup.Item>
                 <ListGroup.Item>
-                  <strong>Provider Since:</strong> {new Date(service.provider.createdAt).toLocaleDateString()}
+                  <strong>Provider Since:</strong> {new Date(service.provider.created_at).toLocaleDateString()}
                 </ListGroup.Item>
               </ListGroup>
             </Card.Body>

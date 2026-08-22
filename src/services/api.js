@@ -93,7 +93,13 @@ export const bookingAPI = {
     return supabaseService.getBookingById(id);
   },
   createBooking: (bookingData) => {
-    return supabaseService.createBooking(bookingData);
+    // clientId isn't supplied by the booking form — attach the logged-in
+    // user's id here so supabaseService.createBooking always gets one.
+    return supabaseService.getCurrentUser()
+      .then((user) => {
+        if (!user) throw new Error('User not authenticated');
+        return supabaseService.createBooking({ ...bookingData, clientId: user.id });
+      });
   },
   updateBookingStatus: (id, status) => {
     return supabaseService.updateBookingStatus(id, status);

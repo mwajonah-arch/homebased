@@ -66,7 +66,7 @@ export const supabaseService = {
       .from('services')
       .select(`
         *,
-        provider:users(id, name, email, phone, profile_image_url, ratings, total_reviews)
+        provider:users(id, name, email, phone, profile_image_url, ratings, total_reviews, is_available)
       `)
       .eq('is_active', true)
 
@@ -87,7 +87,7 @@ export const supabaseService = {
       .from('services')
       .select(`
         *,
-        provider:users(id, name, email, phone, profile_image_url, bio, experience, hourly_rate, ratings, total_reviews, specialties)
+        provider:users(id, name, email, phone, profile_image_url, bio, experience, hourly_rate, ratings, total_reviews, specialties, is_available, created_at)
       `)
       .eq('id', id)
       .single()
